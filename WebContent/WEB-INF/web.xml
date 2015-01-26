@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" metadata-complete="true" version="3.0">
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>/WEB-INF/classes/log4j.properties</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>testServlet</servlet-name>
+    <servlet-class>com.weichat.servlet.testservlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>testServlet</servlet-name>
+    <url-pattern>/testServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>getPosition</servlet-name>
+    <servlet-class>com.weichat.servlet.GetPositionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getPosition</servlet-name>
+    <url-pattern>/getPosition</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>coreServlet</servlet-name>
+    <servlet-class>com.weichat.servlet.CoreServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>coreServlet</servlet-name>
+    <url-pattern>/coreServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>clearCache</servlet-name>
+    <servlet-class>com.weichat.servlet.ClearCacheServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>clearCache</servlet-name>
+    <url-pattern>/clearCache</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

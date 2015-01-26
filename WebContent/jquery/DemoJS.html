@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var a = new Object();
+alert(a);
+console.log(a);
+var age = "";
+var b = {
+	name : 'zhangsan',
+	getName : function(){
+		age = 'lisi';
+	}
+};
+alert(b);
+console.log(b);
+
+var c = b.name;
+alert(c);
+alert(c);
+b.getName();
+alert(age);
+
+function getValue(){
+	var num = "";
+	this.name = "张三";
+	this.age = "18";
+	this.getNum = function(val){
+		num = val;
+		return num;
+	}
+}
+
+var newNum = new getValue();
+alert(newNum.getNum(12));
+
+
+function myclass(){
+	var obj = new Object();
+	obj.name = 'myclassobj';
+	return obj;
+}
+
+var myc = myclass();
+alert(myc.name);
+
+
+
+var car = {
+		name : '红旗',
+		color : 'red',
+		value : '100$',
+		showCar : function(){
+			alert(this.name+","+this.color+","+this.value);
+		}
+	};
+car.showCar();
+
+function carFactory(name,color,value){
+	var tempCar = {
+			name : name,
+			color : color,
+			value : value,
+			showCar : showCar
+	};
+	return tempCar;
+}
+
+function showCar(){
+	alert(this.name+","+this.color+","+this.value);
+}
+
+var car1 = new carFactory("奔驰","黑色","150000$");
+car1.showCar();
+
+var car2 = carFactory("mini","彩色","100000$");
+car2.showCar();
+
+function student(){
+	this.driver = new Array("mike","jim");
+}
+student.prototype.name = "wo";
+student.prototype.age = "24";
+
+student.prototype.showNum = function(){
+	alert(this.name);
+}
+
+var stu1 = new student();
+var stu2 = new student();
+
+stu1.driver.push("july");
+alert(stu1.driver);
+alert(stu2.driver);
+
+
+var arr = new Array("1","2","2","3");
+Array.prototype.showLength = function(){
+	alert(this.length)
+}
+
+Array.prototype.indexOf = function(item){
+	for(var i=0; i<this.length;i++){
+		if(item == this[i]){
+			return i;
+		}
+	}
+}
+var index = arr.indexOf("3");
+alert(index)
+
+Object.prototype.toString = function(){
+	alert("toString method was changed");
+}
+
+var oo = new Object();
+oo.toString();
+
+function person(){
+	this.name = "张三";
+}
+
+person.prototype = {
+		printName : function(){
+			alert(this.name);
+		}
+}
+var p = new person();
+p.printName();
+
+function people(){
+	return function(){
+		this.initialize.apply(this,arguments);
+	}
+}
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!-- 适应移动端缩放 -->
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#swallretuMap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<!-- 非响应式布局样式 -->
+	<link rel="stylesheet" href="http://localhost:8080/WeChat/jquery/non_response.css">
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=vGjwpNUXz0ExbnnfFAPSvh9r"></script>
+	<title>地图展示</title>
+</head>
+<body>
+  <div id="searchBox" align="center"  style="width:100%;height:auth;">
+  	<nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">微信地图</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >医院 <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">全部医院</a></li>
+                <li class="divider"></li>
+                <li><a href="#">三级特等</a></li>
+                <li class="divider"></li>
+                <li onclick="showSanJ();"><a href="#">三级甲等</a></li>
+                <li class="divider"></li>
+                <li><a href="#">三级乙等</a></li>
+                <li class="divider"></li>
+                <li><a href="#">三级丙等</a></li>
+                <li class="divider"></li>
+                <li><a href="#">二级医院</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div> 
+      </div>
+    </nav>
+  </div>
+	<div id="swallretuMap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	var userPosition = "";
+	var hospitals = "";
+	initParam();
+	
+	userPosition = eval('('+userPosition+')');	//将后台的json字符串转为json对象
+	hospitals = eval('('+hospitals+')');
+
+	
+	// 百度地图API功能
+	var map = new BMap.Map("swallretuMap");    // 创建Map实例
+
+	alert(userPosition.lng+","+userPosition.lat);
+	var point = new BMap.Point(userPosition.lng,userPosition.lat);//创建点信息
+	var marker = new BMap.Marker(point);
+	map.addOverlay(marker);
+	
+	//为点添加文字信息,一下两种方法均可实现
+	//	var label = new BMap.Label("中清大厦，趣医网络",{position:point,offset:new BMap.Size(20,10)});
+	var opt = {//将Label的信息通过自己定义实现
+			position : point,//设置标注位置
+			offset : new BMap.Label(30,20)//设置标志的偏移
+	}
+	var label = new BMap.Label("中清大厦，趣医网络",opt);
+	marker.setLabel(label);
+	map.addOverlay(label);
+	
+	//	map.centerAndZoom(new BMap.Point(108.88307002847,34.229220427771), 11);  // 初始化地图,设置中心点坐标和地图级别
+	map.centerAndZoom("西安",15);//根据城市名初始化地图
+	map.setCurrentCity("西安");          // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+	
+	var mapType = new BMap.MapTypeControl({anchor:BMAP_ANCHOR_TOP_RIGHT});//可以切换卫星、地图、三维三种模式
+	map.addControl(mapType);   //添加地图类型控件
+	
+	var bottom_left_control = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});	//左下角添加比例尺控件
+	map.addControl(bottom_left_control);//将控件加入到map中
+	
+	var top_left_navigation = new BMap.NavigationControl();//左上角添加默认平移缩放控件
+	
+	map.addControl(top_left_navigation);//将控件加入到map中
+	
+	/*缩放控件type有四种类型:
+	var bottom_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM}); //右上角仅包含缩放按钮
+	map.addControl(bottom_right_navigation);
+	BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；
+	BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；
+	BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+	
+	var overViewOpen = new BMap.OverviewMapControl({isOpen:true, anchor: BMAP_ANCHOR_BOTTOM_RIGHT});//右下角添加小地图
+	map.addControl(overViewOpen);      //右下角，打开
+	
+	//将点加入到地图标记中
+	function addMarker(poi){
+		  var mark= new BMap.Marker(poi);
+		  map.addOverlay(mark);
+	}
+	
+	//向地图中加入其它医院信息
+	for(var i=0; i<hospitals.length;i++){
+		alert("第"+i+"次"+hospitals[i].longitude+","+hospitals[i].latitude);
+		var poi = new BMap.Point(hospitals[i].longitude,hospitals[i].latitude);
+		addMarker(poi);
+	}
+	function showMsg(){
+		alert("请输入要查询的信息");
+	}
+	
+	function initParam(){
+		getHospital();
+		getUserPosition();
+	}
+
+	function getHospital(){
+		 $.ajax({
+			 url : 'http://localhost:8080/WeChat/testServlet',
+			 type : 'POST',
+			 async:false,
+			 success : function(data){
+				 hospitals = data;
+			 },
+			 error : function(){
+				 hospitals = "获取数据失败";
+			 }
+		 });
+	}
+	
+	function getUserPosition(){
+		 $.ajax({
+			 url : 'http://localhost:8080/WeChat/getPosition',
+			 type : 'POST',
+			 async:false,
+			 success : function(data){
+				 userPosition = data;
+			 },
+			 error : function(){
+				 userPosition = "获取数据失败";
+			 }
+		 });
+	}
+
+	function showSanJ(){
+		$.ajax({
+			url : 'http://localhost:8080/WeChat/testServlet?level=sanJ',
+			type : 'POST',
+			async:false,
+			success : function(data){
+				userPosition = data;
+			},
+			error : function(){
+			   userPosition = "获取数据失败";
+			}
+		});
+	}
+</script>
