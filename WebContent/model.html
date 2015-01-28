@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Model</title>
+<script type="text/javascript" src="http://localhost:8080/WeChat/jquery/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="http://172.16.7.6:8080/WeChat/hospitalsData.js"></script>
+<script type="text/javascript">
+
+window.onload = init;
+function init(){
+	var hospital = getHospital();
+	alert(hospital);
+	for( var i = 0;i<hospital.length;i++){
+		console.log(hospital[i].hospitalName);
+	}
+	
+}
+
+function showHttpJson(){
+	$.ajax({
+		url : 'http://192.168.1.101:8080/WeChat/hospitals.json',
+		type : 'GET',
+		dataType : 'json',
+		success : function(data){
+			var hospitals = data.hospitals;
+			alert(hospitals[0].hospitalName);
+			
+			console.log("http information:"+hospitals[0].hospitalName);
+		}
+	});
+}
+
+//通过相对路径调用json文件
+function showLocalJson(){
+	$.ajax({
+		url : 'hospitals.json',
+		type : 'GET',
+		dataType : 'json',
+		success : function(data){
+			var hospitals = data.hospitals;
+			alert(hospitals[0].hospitalName);
+			console.log("local information:"+hospitals[0].hospitalName);
+		}
+	});
+}
+
+function getParam(){
+	
+	var userPosition = "";
+	var hospitals = "";
+	initParam();
+	
+	userPosition = eval('('+userPosition+')');	
+	hospitals = eval('('+hospitals+')');
+	
+	function initParam(){
+		getHospital();
+		getUserPosition();
+	}
+
+	function getHospital(){
+		 $.ajax({
+			 url : 'http://localhost:8080/WeChat/testServlet',
+			 type : 'POST',
+			 async:false,
+			 success : function(data){
+				 hospitals = data;
+			 },
+			 error : function(){
+				 hospitals = "获取数据失败";
+			 }
+		 });
+	}
+	
+	function getUserPosition(){
+		 $.ajax({
+			 url : 'http://localhost:8080/WeChat/getPosition',
+			 type : 'POST',
+			 async:false,
+			 success : function(data){
+				 userPosition = data;
+			 },
+			 error : function(){
+				 userPosition = "获取数据失败";
+			 }
+		 });
+	}
+}
+
+/**	
+function hideDiv(){
+	$("#hide").click(function(){
+		  $("#div1").hide(300);
+		});
+}
+
+function showDiv(){
+	$("#show").click(function(){
+		  $("#div1").show(300);
+		});
+}	*/	
+
+</script>
+</head>
+<body>
+<!-- <button id="hide" type="button" onclick="hideDiv();">隐藏</button>
+<button id="show" type="button" onclick="showDiv();">显示</button>-->
+<button type="button" onclick="showHttpJson();">显示Httpjson</button>
+<button type="button" onclick="showLocalJson();">显示静态json</button>
+</body>
+</html>

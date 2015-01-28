@@ -1,98 +1,45 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="UTF-8">
-<title>swallretu</title>
-<style type="text/css">
-</style>
-<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.lightbox_me.js"></script>
-<script type="text/javascript">
-	//显示灰色 jQuery 遮罩层 
-	function showBg() {
-		var bh = $("body").height();
-		var bw = $("body").width();
-		$("#fullbg").css({
-			height : bh,
-			width : bw,
-			display : "block"
-		});
-		$("#dialog").show();
-	}
-	//关闭灰色 jQuery 遮罩 
-	function closeBg() {
-		$("#fullbg,#dialog").hide();
-	}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jquery点击弹出登陆窗口</title>
+<link rel="stylesheet" href="css/lanrenzhijia.css" media="all">
+<script src="js/jquery-1.11.2.min.js"></script>
+<script>
+jQuery(document).ready(function($) {
+	$('.theme-login').click(function(){
+		$('.theme-popover-mask').fadeIn(100);
+		$('.theme-popover').slideDown(200);
+	})
+	$('.theme-poptit .close').click(function(){
+		$('.theme-popover-mask').fadeOut(100);
+		$('.theme-popover').slideUp(200);
+	})
+
+})
 </script>
-<style type="text/css">
-body {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	margin: 0;
-}
-
-#main {
-	height: 1800px;
-	padding-top: 90px;
-	text-align: center;
-}
-
-#fullbg {
-	background-color: gray;
-	left: 0;
-	opacity: 0.5;
-	position: absolute;
-	top: 0;
-	z-index: 3;
-	filter: alpha(opacity = 50);
-	-moz-opacity: 0.5;
-	-khtml-opacity: 0.5;
-}
-
-#dialog {
-	background-color: #fff;
-	border: 5px solid rgba(0, 0, 0, 0.4);
-	height: 50%;
-	width: 50%;
-	left: 40%;
-	margin: -200px 0 0 -200px;
-	padding: 1px;
-	position: fixed !important; /* 浮动对话框 */
-	position: absolute;
-	top: 50%;
-	z-index: 5;
-	border-radius: 5px;
-	display: none;
-}
-
-#dialog p {
-	margin: 0 0 12px;
-	height: 24px;
-	line-height: 24px;
-	background: #CCCCCC;
-}
-
-#dialog p.close {
-	text-align: right;
-	padding-right: 10px;
-}
-
-#dialog p.close a {
-	color: #fff;
-	text-decoration: none;
-}
-</style>
 </head>
+
 <body>
-	<div id="main">
-		<a href="javascript:showBg();">点击这里查看效果</a>
-		<div id="fullbg"></div>
-		<div id="dialog">
-			<p class="close">
-				<a href="#" onclick="closeBg();">关闭</a>
-			</p>
-			<div>正在加载，请稍后....</div>
-		</div>
-	</div>
+<div class="theme-buy">
+<a class="btn btn-primary btn-large theme-login" href="javascript:;">点击查看效果</a>
+</div>
+<div class="theme-popover">
+     <div class="theme-poptit">
+          <a href="javascript:;" title="关闭" class="close">×</a>
+          <h3>登录 是一种态度</h3>
+     </div>
+     <div class="theme-popbod dform">
+           <form class="theme-signin" name="loginform" action="" method="post">
+                <ol>
+                     <li><h4>你必须先登录！</h4></li>
+                     <li><strong>用户名：</strong><input class="ipt" type="text" name="log" value="lanrenzhijia" size="20" /></li>
+                     <li><strong>密码：</strong><input class="ipt" type="password" name="pwd" value="***" size="20" /></li>
+                     <li><input class="btn btn-primary" type="submit" name="submit" value=" 登 录 " /></li>
+                </ol>
+           </form>
+     </div>
+</div>
+<div class="theme-popover-mask"></div>
 </body>
 </html>
