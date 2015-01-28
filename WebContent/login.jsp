@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,21 +13,15 @@
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
 <title>登陆</title>
-<script>
+<script type="text/javascript">
 function login(){
 	
-	var email = document.getElementsByName("email")[0].value;//获取email input的值
-	var passwd = document.getElementsByName("passwd")[0].value;//获取email input的值
-	$.ajax({
-		url : 'http://localhost:8080/WeChat/loginServlet?email='+email+'&passwd='+passwd,
-		type : 'POST',
-		success : function(data){
-			console.log(data.message);
-		},
-		error : function(){
-			alert("登录请求发送失败");
-		}
-	});
+//	var email = document.getElementsByName("email")[0].value;//获取email input的值
+//	var passwd = document.getElementsByName("passwd")[0].value;//获取email input的值
+
+	var form = $("#loginform");
+	form.serialize();
+	form.submit();
 }
 </script>
 </head>
@@ -33,7 +29,7 @@ function login(){
 	<div align="center" style="width: 50%;height:40%; margin-left: 25%;">
 		<div class="container">
 			<div class="row">
-					<form>
+					<form id="loginform" action="<%=request.getContextPath()%>/loginServlet">
 						<h2>欢迎登陆swallretu</h2>
 						<div class="form-group">
 							<label for="inputEmail" class="sr-only">Email address</label> <input

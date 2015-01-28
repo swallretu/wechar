@@ -34,12 +34,15 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("check in accont");
-		response.setHeader("Access-Control-Allow-Origin", "*");//解决跨域问题
+//		response.setHeader("Access-Control-Allow-Origin", "*");//解决跨域问题
 		response.setContentType("text/html;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");//设置字符集
+		String email = request.getParameter("email");
+		String passwd = request.getParameter("passwd");
+		
 		Map<String,String> resultMap = new HashMap<String,String>();
-		request.getRequestDispatcher("../success.jsp").forward(request, response);
+		request.getRequestDispatcher("success.jsp").forward(request, response);
+		response.getWriter().write("sss");
 //		String email = request.getParameter("email");
 //		String passwd = request.getParameter("passwd");
 //		
