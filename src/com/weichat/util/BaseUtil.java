@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class BaseUtil {
 
-	public static String APPID = "wx09cbf2186670fddc";
-	public static String SECRET = "b7405a1144656ea5c48316470dbf4440";
+	public static String APPID = "";
+	public static String SECRET = "";
 
 	/**
 	 * 获取token
